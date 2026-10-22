@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f6f5fa">
-  <meta name="description" content="Upload gambar tanpa akun. Dapatkan direct image link, Markdown, dan HTML dalam beberapa detik.">
-  <meta property="og:title" content="ImgUploader — Gambar masuk. Link beres.">
-  <meta property="og:description" content="Unggah gambar sebagai guest, lalu bagikan direct link ke mana saja.">
+  <meta name="theme-color" content="#f4f4f1">
+  <meta name="description" content="Unggah gambar tanpa akun, lalu salin direct link untuk dibagikan.">
+  <meta property="og:title" content="ImgUploader — Upload gambar">
+  <meta property="og:description" content="Unggah gambar tanpa akun, lalu salin direct link untuk dibagikan.">
   <meta property="og:type" content="website">
   <title>ImgUploader — Gambar masuk. Link beres.</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -166,6 +166,74 @@
     @media(max-width:620px){.shell{padding:0 16px}.topbar{height:68px}.brandmark{height:35px;width:35px;border-radius:11px}.brandname{font-size:16px}.brandtag{font-size:8px;letter-spacing:1px}.top-actions{gap:7px}.guest-pill{font-size:10px;padding:8px 10px}.help-link{padding:7px}.help-link span{display:none}.hero{padding:32px 0 23px;gap:20px}.eyebrow{font-size:9px;letter-spacing:1.4px;margin-bottom:12px}h1{font-size:39px;letter-spacing:-2px;margin-bottom:11px}.hero-copy{font-size:13px;line-height:1.75}.hero-aside{gap:8px;padding-top:15px}.aside-row{gap:7px;flex-direction:column}.aside-icon{width:32px;height:32px;border-radius:10px}.aside-icon .icon{height:17px;width:17px}.aside-row strong{font-size:11px}.aside-row small{font-size:10px}.main-grid{gap:13px}.upload-panel{padding:14px;border-radius:17px}.panel-heading{margin-bottom:13px}.dropzone{min-height:222px;padding:23px 12px}.upload-glyph{height:54px;width:54px;border-radius:17px;margin-bottom:14px}.dropzone h3{font-size:15px}.dropzone p{font-size:12px;line-height:1.65}.file-rules{font-size:9px;gap:6px}.setup-notice{padding:11px;margin-top:12px}.queue-grid{grid-template-columns:1fr}.file-card{grid-template-columns:58px minmax(0,1fr)}.file-thumb{height:58px;width:58px}.queue-actions{gap:7px}.queue-actions .primary-btn{padding:13px 10px;font-size:12px}.queue-actions .secondary-btn{padding:12px 10px}.side-stack{grid-template-columns:1fr}.side-card{padding:17px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.step{flex-direction:column;gap:7px}.step p{font-size:10px}.step strong{font-size:11px}.privacy-card{padding:17px}.history-section{padding:31px 0 37px}.section-heading{align-items:flex-start;flex-direction:column}.section-heading h2{font-size:22px}.history-actions{align-self:stretch}.history-actions .small-btn{flex:1;justify-content:center}.history-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.history-preview{height:115px}.history-body{padding:10px}.history-file-name{font-size:11px}.history-meta{font-size:9px;gap:5px}.history-url{padding:7px;margin-top:9px}.history-actions-row{grid-template-columns:1fr 32px 32px;gap:4px;margin-top:7px}.history-actions-row button{min-height:31px}.history-actions-row button:first-child{font-size:9px}.footer{align-items:flex-start;flex-direction:column;padding:19px 0}.footer-right{gap:12px}.toast-wrap{right:12px;bottom:12px}.toast{padding:11px 13px}.modal{padding:20px}}
     @media(max-width:370px){h1{font-size:34px}.brandtag{display:none}.hero-aside{grid-template-columns:1fr;gap:11px}.aside-row{flex-direction:row;align-items:center}.steps{display:flex;flex-direction:column}.history-grid{grid-template-columns:1fr}.history-preview{height:155px}}
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+    /* Visual refinement: calmer colors, fewer decorative effects, task-first layout. */
+    :root{--bg:#f4f4f1;--paper:#fff;--ink:#262923;--muted:#777a70;--soft:#eef0eb;--line:#e2e4dd;--accent:#356b5c;--accent-dark:#285448;--accent-soft:#e7efeb;--good:#2a7955;--danger:#bd5050;--shadow:0 2px 8px rgba(35,40,31,.025)}
+    body{background:var(--bg);color:var(--ink)}
+    .topbar{border-color:#e2e4dd}
+    .brandmark{background:#356b5c;border-radius:9px;box-shadow:none}
+    .brandname span{color:#356b5c}
+    .brandtag{letter-spacing:.9px}
+    .guest-pill{border-radius:7px;background:transparent;border-color:#dcdfd7;color:#656b60;padding:7px 10px}
+    .guest-pill:before{box-shadow:none}
+    .help-link:hover{color:#356b5c}
+    .hero{display:block;padding:38px 0 27px}
+    .hero-aside{display:none}
+    .eyebrow{color:#356b5c;letter-spacing:1.25px}
+    .eyebrow:before{background:#356b5c}
+    h1{font-size:clamp(32px,4.6vw,45px);letter-spacing:-2px;line-height:1.17;margin-bottom:12px}
+    h1 .highlight{color:#356b5c}
+    .hero-copy{max-width:650px;font-size:14px;line-height:1.7}
+    .panel{border-radius:14px;box-shadow:none;border-color:#e1e3dc}
+    .upload-panel{padding:21px}
+    .panel-heading h2{letter-spacing:-.2px}
+    .dropzone{border:1px dashed #bfc8bf;background:#fafbf8;border-radius:11px;min-height:225px}
+    .dropzone:before{display:none}
+    .dropzone.dragover{background:#eff5f0;border-color:#356b5c;box-shadow:inset 0 0 0 2px rgba(53,107,92,.06)}
+    .upload-glyph{height:51px;width:51px;border-radius:12px;background:#eaf0eb;color:#356b5c;box-shadow:none}
+    .dropzone.dragover .upload-glyph{background:#dce9df}
+    .dropzone h3{font-size:15px;letter-spacing:-.2px}
+    .dropzone p{margin-bottom:15px}
+    .text-button{color:#356b5c}
+    .primary-btn{background:#356b5c;border-radius:8px;box-shadow:none;padding:11px 15px}
+    .primary-btn:hover{background:#285448;box-shadow:none;transform:translateY(-1px)}
+    .secondary-btn{border-radius:8px}
+    .setup-notice{border:1px solid #e8d9af;background:#fffaf0;border-radius:9px;color:#65552e}
+    .setup-notice .icon{color:#a9863b}
+    .setup-notice p{color:#756747}
+    .file-card{border-radius:10px;border-color:#e7e8e1;box-shadow:none}
+    .file-thumb{border-radius:7px}
+    .file-progress span{background:#356b5c}
+    .file-progress{background:#eceee8}
+    .side-stack{gap:12px}
+    .side-card{border-radius:12px;padding:17px}
+    .steps{gap:13px}
+    .step-number{border-radius:7px;border-color:#dbe3da;background:#f0f4ef;color:#356b5c}
+    .step p{line-height:1.55}
+    .privacy-card{background:#fff;color:#262923;border:1px solid #e1e3dc;border-radius:12px;padding:17px}
+    .privacy-card:after{display:none}
+    .privacy-icon{background:#eaf0eb;color:#356b5c;border-radius:8px}
+    .privacy-card h3{color:#262923}
+    .privacy-card p{color:#777a70}
+    .history-section{padding-top:34px}
+    .section-heading h2{letter-spacing:-.65px}
+    .history-card{box-shadow:none;border-color:#e1e3dc;border-radius:11px}
+    .history-card:hover{box-shadow:0 4px 14px rgba(35,40,31,.055)}
+    .history-preview{background:#eeefea}
+    .history-preview .format-tag{border-radius:4px;box-shadow:none}
+    .history-url{background:#f8f9f6;border-color:#e6e8e1;border-radius:6px}
+    .history-url .icon{color:#356b5c}
+    .history-actions-row button{border-radius:6px}
+    .history-actions-row button:first-child{color:#356b5c;background:#f3f7f3;border-color:#dfe8df}
+    .history-actions-row button:hover{border-color:#9fb5a7;color:#285448}
+    .small-btn{border-radius:7px}
+    .footer{border-color:#e1e3dc}
+    .footer strong{color:#356b5c}
+    .modal-backdrop{backdrop-filter:none;background:rgba(28,31,26,.35)}
+    .modal{border-radius:13px;box-shadow:0 12px 40px rgba(25,30,23,.15)}
+    .modal .primary-btn{box-shadow:none}
+    @media(max-width:620px){.hero{padding:28px 0 20px}h1{font-size:35px;letter-spacing:-1.5px}.upload-panel{padding:14px}.dropzone{min-height:210px}.privacy-card{background:#fff}}
+
   </style>
 </head>
 <body>
@@ -205,9 +273,9 @@
   <main class="shell">
     <section class="hero">
       <div>
-        <div class="eyebrow">SIMPLE IMAGE HOSTING</div>
-        <h1>Gambar masuk.<br><span class="highlight">Link beres.</span></h1>
-        <p class="hero-copy">Unggah gambar dan langsung dapatkan link yang siap dibagikan. Tanpa akun, tanpa proses bertele-tele.</p>
+        <div class="eyebrow">IMAGE UPLOADER</div>
+        <h1>Upload gambar.<br><span class="highlight">Bagikan tautannya.</span></h1>
+        <p class="hero-copy">Pilih gambar dari perangkatmu. Setelah selesai diunggah, salin URL langsung untuk dipakai di website, forum, atau chat.</p>
       </div>
       <div class="hero-aside" aria-label="Keunggulan">
         <div class="aside-row"><span class="aside-icon"><svg class="icon"><use href="#i-cloud-upload"/></svg></span><span><strong>Upload langsung</strong><small>Drag, drop, selesai.</small></span></div>
@@ -219,20 +287,20 @@
     <div class="main-grid">
       <section class="panel upload-panel" aria-labelledby="upload-title">
         <div class="panel-heading">
-          <div><h2 id="upload-title">Mulai dengan gambarmu</h2><p>Tambah satu atau beberapa file sekaligus.</p></div>
+          <div><h2 id="upload-title">Pilih file gambar</h2><p>Tambah satu atau beberapa file sekaligus.</p></div>
           <span class="tiny-label">STEP 01</span>
         </div>
         <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" multiple hidden>
         <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-label="Pilih gambar atau tarik gambar ke sini">
           <span class="upload-glyph"><svg class="icon"><use href="#i-cloud-upload"/></svg></span>
-          <h3>Taruh gambar di sini</h3>
-          <p>Drag & drop file, atau <button class="text-button" type="button" id="chooseFiles">pilih dari perangkat</button></p>
+          <h3>Seret gambar ke area ini</h3>
+          <p>atau <button class="text-button" type="button" id="chooseFiles">pilih file dari perangkat</button></p>
           <button class="primary-btn" type="button" id="browseButton"><svg class="icon sm"><use href="#i-plus"/></svg>Pilih gambar</button>
           <div class="file-rules"><span>JPG</span><i class="dot"></i><span>PNG</span><i class="dot"></i><span>WEBP</span><i class="dot"></i><span>GIF</span><i class="dot"></i><span>AVIF</span><i class="dot"></i><span>Maks. 10 MB / gambar</span></div>
         </div>
         <div id="setupNotice" class="setup-notice" hidden>
           <svg class="icon"><use href="#i-alert"/></svg>
-          <div><strong>Storage perlu diaktifkan sekali oleh pemilik website.</strong><p>Isi Cloud name dan unsigned upload preset di <code>config.js</code>. Petunjuk lengkap tersedia di README repo.</p></div>
+          <div><strong>Upload gambar belum diaktifkan.</strong><p>Gambar perlu disimpan di layanan penyimpanan agar mendapat URL yang bisa dibuka dari mana saja. Pemilik situs mengaturnya sekali; pengunjung tetap bisa upload tanpa akun setelah aktif.</p></div>
         </div>
         <section class="queue-section" id="queueSection" hidden aria-live="polite">
           <div class="queue-head"><h3>File yang dipilih</h3><span id="queueCount" class="queue-count">0 file</span></div>
@@ -246,24 +314,24 @@
 
       <aside class="side-stack" id="cara-kerja">
         <section class="panel side-card">
-          <h3>Sesimpel itu.</h3>
+          <h3>Cara pakainya</h3>
           <div class="steps">
             <div class="step"><span class="step-number">01</span><div><strong>Pilih gambar</strong><p>Tarik file ke area upload atau pilih dari galeri perangkat.</p></div></div>
-            <div class="step"><span class="step-number">02</span><div><strong>Unggah</strong><p>Lihat progress sebenarnya sampai gambar berhasil diproses.</p></div></div>
-            <div class="step"><span class="step-number">03</span><div><strong>Salin link</strong><p>Pakai direct URL, Markdown, atau HTML sesuai kebutuhan.</p></div></div>
+            <div class="step"><span class="step-number">02</span><div><strong>Upload</strong><p>Progress terlihat selama file dikirim.</p></div></div>
+            <div class="step"><span class="step-number">03</span><div><strong>Salin tautan</strong><p>Salin URL, Markdown, atau HTML sesuai kebutuhan.</p></div></div>
           </div>
         </section>
         <section class="privacy-card">
           <span class="privacy-icon"><svg class="icon"><use href="#i-shield-check"/></svg></span>
-          <h3>Ruang gambar, tanpa akun.</h3>
-          <p>Riwayat upload hanya tersimpan di browser ini. Link yang sudah dibuat tetap bisa dibagikan, dan menghapus riwayat tidak menghapus file dari storage.</p>
+          <h3>Tentang riwayat</h3>
+          <p>Daftar gambar hanya disimpan di browser ini. Tautan tetap bisa dibagikan. Menghapus item dari riwayat tidak menghapus file yang sudah diunggah.</p>
         </section>
       </aside>
     </div>
 
     <section class="history-section" aria-labelledby="history-title">
       <div class="section-heading">
-        <div><div class="eyebrow">YOUR IMAGE SHELF</div><h2 id="history-title">Upload terbaru</h2><p>Riwayat lokal di perangkat ini. Maksimal 12 gambar terakhir.</p></div>
+        <div><div class="eyebrow">RIWAYAT DI PERANGKAT</div><h2 id="history-title">Upload terbaru</h2><p>12 gambar terakhir yang berhasil diunggah dari browser ini.</p></div>
         <div class="history-actions"><button id="copyAllButton" class="small-btn" type="button" hidden><svg class="icon sm"><use href="#i-copy"/></svg>Salin semua link</button><button id="clearHistoryButton" class="small-btn" type="button" hidden><svg class="icon sm"><use href="#i-trash"/></svg>Bersihkan riwayat</button></div>
       </div>
       <div id="historyGrid" class="history-grid"></div>
@@ -278,8 +346,8 @@
   <div id="toastWrap" class="toast-wrap" aria-live="polite" aria-atomic="true"></div>
   <div id="setupModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="setupModalTitle">
     <div class="modal">
-      <div class="modal-top"><h2 id="setupModalTitle">Aktifkan image storage</h2><button class="close-modal" type="button" id="closeModal" aria-label="Tutup"><svg class="icon"><use href="#i-x"/></svg></button></div>
-      <p>UI dan alur upload sudah siap, tetapi storage perlu dihubungkan ke Cloudinary agar gambar punya URL permanen. Ini hanya setup untuk pemilik website, bukan akun untuk pengunjung.</p>
+      <div class="modal-top"><h2 id="setupModalTitle">Upload belum aktif</h2><button class="close-modal" type="button" id="closeModal" aria-label="Tutup"><svg class="icon"><use href="#i-x"/></svg></button></div>
+      <p>Website perlu tempat penyimpanan gambar supaya file mendapat URL yang tetap bisa dibuka setelah halaman ditutup. Kita memakai Cloudinary untuk menyimpan file. Pengunjung tetap bisa upload tanpa akun; pengaturan ini hanya perlu dilakukan pemilik situs satu kali.</p>
       <ol><li>Buat cloud di Cloudinary.</li><li>Buat upload preset baru dengan <strong>Signing Mode: Unsigned</strong>.</li><li>Batasi preset ke format gambar yang dibutuhkan dan ukuran maksimum 10 MB.</li><li>Masukkan nilai di <code>config.js</code>, commit ke GitHub, lalu deploy ulang.</li></ol>
       <div class="code-line">window.UPLOADER_CONFIG = { cloudName: "nama-cloud", uploadPreset: "nama-preset" };</div>
       <p>Jangan masukkan API Secret ke frontend. Gunakan preset khusus dengan batasan upload.</p>
