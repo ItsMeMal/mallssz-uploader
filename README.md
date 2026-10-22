@@ -1,50 +1,42 @@
 # mallssz-uploader
 
-Guest-first image uploader with a responsive UI, drag-and-drop, animated previews, real upload progress, direct links, Markdown/HTML snippets, and local upload history.
+Website upload gambar untuk guest. Pengunjung tidak perlu login atau membuat akun. Antarmuka memakai HTML, CSS, dan JavaScript biasa, dengan drag-and-drop, preview, animasi ringan, progress upload asli, direct link, salin Markdown/HTML, dan riwayat lokal.
 
-## Stack
+## Kenapa perlu Cloudinary?
 
-- Static HTML, CSS, and vanilla JavaScript — no build step or framework.
-- Designed to deploy directly on Vercel.
-- Cloudinary unsigned image upload for storage.
-- No account, login, or registration for visitors.
+Website di Vercel tidak seharusnya menyimpan gambar pengguna di folder website. Folder deployment adalah untuk aplikasi, bukan tempat penyimpanan file upload permanen. Karena itu gambar dikirim ke layanan penyimpanan supaya mendapat URL yang tetap bisa dibuka dan dibagikan setelah browser ditutup.
 
-## Enable uploads (one-time setup)
+Cloudinary adalah tempat menyimpan file tersebut. Pengaturan dilakukan oleh pemilik website satu kali. Pengunjung tetap bisa upload sebagai guest tanpa login.
 
-The UI works without configuration, but real uploads stay disabled until a storage provider is configured. This repository uses Cloudinary unsigned uploads so no API secret needs to be exposed in the browser.
+## Mengaktifkan upload (setup satu kali)
 
-1. Create or open a Cloudinary account and copy the **Cloud name**.
-2. In Cloudinary, create a new upload preset and set **Signing Mode** to **Unsigned**.
-3. Restrict the preset to the image formats you want to accept (JPG, PNG, WEBP, GIF, AVIF), set a maximum upload size of **10 MB**, disable overwriting, and choose a dedicated folder if available. Unsigned upload presets are public, so configure strict limits.
-4. Edit `config.js`:
+1. Buat akun Cloudinary, kemudian salin **Cloud name** dari dashboard.
+2. Buat **Upload preset** baru dan pilih mode **Unsigned**.
+3. Batasi preset ke format gambar yang diperlukan (JPG/JPEG, PNG, WEBP, GIF, AVIF), ukuran maksimum 10 MB, dan nonaktifkan overwrite jika tersedia.
+4. Buka `config.js`, lalu isi nilainya:
 
    ```js
    window.UPLOADER_CONFIG = {
-     cloudName: "your-cloud-name",
-     uploadPreset: "your-unsigned-preset"
+     cloudName: "nama-cloud-kamu",
+     uploadPreset: "nama-unsigned-preset"
    };
    ```
 
-5. Commit and push to GitHub. Vercel will redeploy automatically if the repository is connected.
+5. Commit/push ke GitHub. Jika repo sudah terhubung ke Vercel, situs akan deploy ulang otomatis.
 
-Do **not** put a Cloudinary API secret in `config.js` or any browser code.
+**Penting:** unsigned preset memungkinkan upload langsung dari browser sehingga preset bersifat publik. Terapkan batasan upload di Cloudinary dan awasi kuota. Jangan pernah menaruh API Secret Cloudinary di `config.js` atau frontend.
 
-## Features
+## Fitur
 
-- Guest upload, multi-file selection, drag-and-drop, and previews.
-- Accepts JPG/JPEG, PNG, WEBP, GIF, AVIF; maximum 10 MB per file and 20 files per batch.
-- Real progress from the upload request, per-file success/error feedback, and retry failed files.
-- Copies direct URL, Markdown, and HTML snippets.
-- Stores the last 12 successful uploads in the current browser's local storage. It is not a cross-device account history.
-- Removing an entry only removes it from local history; it does **not** delete the remote image.
-- Subtle motion with support for `prefers-reduced-motion`.
+- Tidak ada login atau registrasi untuk pengunjung.
+- Upload banyak gambar, drag-and-drop, preview, dan progress upload sesungguhnya.
+- Format: JPG/JPEG, PNG, WEBP, GIF, AVIF.
+- Maksimum 10 MB tiap file dan 20 file per batch.
+- Direct URL, Markdown, dan HTML bisa disalin dari gambar yang berhasil diunggah.
+- Maksimum 12 gambar disimpan di browser saat ini, bukan akun atau galeri lintas perangkat.
+- Menghapus entri riwayat hanya menghilangkan catatan lokal; file remote tidak ikut terhapus.
+- Mendukung pengaturan `prefers-reduced-motion`.
 
-## Deploy to Vercel
+## Deploy Vercel
 
-Import `ItsMeMal/mallssz-uploader` in Vercel and deploy from the `main` branch. The site is static; no build command or output directory is required. Set a custom domain in Vercel if desired.
-
-## Important notes
-
-- Upload functionality requires valid Cloudinary configuration. The repository intentionally ships with empty public config values.
-- A public unsigned preset can be abused. Apply upload restrictions in Cloudinary and watch your storage/quota usage.
-- This frontend does not provide remote deletion or a database-backed global upload gallery.
+Import repo `ItsMeMal/mallssz-uploader` di Vercel dan deploy branch `main`. Situs statis ini tidak membutuhkan build command. Upload baru berfungsi setelah konfigurasi Cloudinary diisi.
