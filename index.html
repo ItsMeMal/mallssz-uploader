@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5fa">
+  <meta name="description" content="Upload gambar tanpa akun. Dapatkan direct image link, Markdown, dan HTML dalam beberapa detik.">
+  <meta property="og:title" content="ImgUploader — Gambar masuk. Link beres.">
+  <meta property="og:description" content="Unggah gambar sebagai guest, lalu bagikan direct link ke mana saja.">
+  <meta property="og:type" content="website">
+  <title>ImgUploader — Gambar masuk. Link beres.</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/config.js"></script>
+  <style>
+    :root{color-scheme:light;--bg:#f6f5fa;--paper:#fff;--ink:#211f2b;--muted:#777486;--soft:#efedf7;--line:#e7e4ef;--accent:#6d5ce8;--accent-dark:#5141c7;--accent-soft:#eeebff;--good:#21845b;--danger:#c64f56;--shadow:0 14px 45px rgba(35,29,67,.055)}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible,input:focus-visible,.dropzone:focus-visible{outline:3px solid #bdb4ff;outline-offset:3px}
+    button:disabled{opacity:.48;cursor:not-allowed;transform:none!important}
+    .icon{width:20px;height:20px;display:inline-block;flex:none;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+    .icon.sm{width:16px;height:16px}.icon.lg{width:24px;height:24px}
+    .shell{max-width:1136px;margin:0 auto;padding:0 28px}
+    .topbar{height:78px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(224,220,235,.8)}
+    .brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit}
+    .brandmark{height:39px;width:39px;border-radius:13px;background:var(--accent);display:grid;place-items:center;color:#fff;box-shadow:0 5px 13px rgba(109,92,232,.2)}
+    .brandmark .icon{width:23px;height:23px;stroke-width:2}
+    .brandname{font:800 18px/1 "Manrope",sans-serif;letter-spacing:-.8px}
+    .brandname span{color:var(--accent)}
+    .brandtag{display:block;color:#9995a7;font-size:10px;letter-spacing:1.25px;margin-top:6px;font-weight:700}
+    .top-actions{display:flex;align-items:center;gap:20px}
+    .guest-pill{display:inline-flex;align-items:center;gap:8px;color:#625b76;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 13px;font-size:12px;font-weight:600}
+    .guest-pill:before{content:"";height:7px;width:7px;background:#39a879;border-radius:50%;box-shadow:0 0 0 3px #e6f6ed}
+    .help-link{border:0;background:transparent;color:#777486;display:inline-flex;gap:7px;align-items:center;padding:8px;text-decoration:none}
+    .help-link:hover{color:var(--accent)}
+    .hero{padding:48px 0 28px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(240px,.7fr);gap:36px;align-items:end}
+    .eyebrow{display:flex;align-items:center;gap:9px;color:var(--accent);font-size:11px;font-weight:700;letter-spacing:1.65px;text-transform:uppercase;margin-bottom:15px}
+    .eyebrow:before{content:"";height:1px;width:24px;background:var(--accent)}
+    h1,h2,h3,p{margin-top:0}
+    h1{font:800 clamp(35px,5vw,54px)/1.13 "Manrope",sans-serif;letter-spacing:-2.8px;margin-bottom:15px}
+    h1 .highlight{color:var(--accent)}
+    .hero-copy{color:#777486;max-width:500px;font-size:15px;line-height:1.8;margin:0}
+    .hero-aside{border-left:1px solid #ded9ec;padding:5px 0 6px 24px;display:flex;flex-direction:column;gap:16px;margin-bottom:4px}
+    .aside-row{display:flex;gap:12px;align-items:center}
+    .aside-icon{background:#fff;border:1px solid var(--line);height:39px;width:39px;border-radius:12px;display:grid;place-items:center;color:var(--accent)}
+    .aside-row strong{display:block;font-size:13px;font-weight:700;margin-bottom:2px}
+    .aside-row small{display:block;color:#898597;font-size:12px}
+    .main-grid{display:grid;grid-template-columns:minmax(0,1fr) 286px;gap:21px;align-items:start}
+    .panel{background:var(--paper);border:1px solid #e8e5ef;border-radius:21px;box-shadow:var(--shadow)}
+    .upload-panel{padding:23px}
+    .panel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:19px}
+    .panel-heading h2{font:700 16px "Manrope",sans-serif;letter-spacing:-.35px;margin:0}
+    .panel-heading p{color:#8a8698;font-size:12px;margin:5px 0 0}
+    .tiny-label{font-size:10px;font-weight:700;letter-spacing:1.2px;color:#a09bac}
+    .dropzone{position:relative;border:1.5px dashed #c8c1e8;background:#fbfaff;border-radius:16px;min-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 18px;overflow:hidden;transition:background .22s ease,border-color .22s ease,transform .22s ease,box-shadow .22s ease}
+    .dropzone:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(109,92,232,.075),transparent 63%);opacity:.65;pointer-events:none}
+    .dropzone.dragover{border-color:var(--accent);background:#f2efff;transform:scale(1.006);box-shadow:inset 0 0 0 3px rgba(109,92,232,.07)}
+    .dropzone.dragover .upload-glyph{transform:translateY(-5px) scale(1.04);background:#e0daff}
+    .upload-glyph{height:62px;width:62px;border-radius:19px;display:grid;place-items:center;color:var(--accent);background:#eeeaff;margin-bottom:17px;transition:transform .25s cubic-bezier(.2,.8,.2,1),background .25s}
+    .upload-glyph .icon{width:29px;height:29px}
+    .dropzone h3{font:700 17px "Manrope",sans-serif;letter-spacing:-.4px;margin-bottom:6px}
+    .dropzone p{font-size:13px;color:#878296;margin-bottom:18px}
+    .text-button{color:var(--accent);background:none;border:none;padding:0;font-weight:700}
+    .text-button:hover{text-decoration:underline}
+    .primary-btn{border:0;border-radius:11px;background:var(--accent);color:#fff;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:12px 17px;font-weight:700;box-shadow:0 6px 14px rgba(109,92,232,.18);transition:background .18s,transform .18s,box-shadow .18s}
+    .primary-btn:hover{background:var(--accent-dark);transform:translateY(-1px);box-shadow:0 9px 19px rgba(109,92,232,.22)}
+    .primary-btn:active{transform:translateY(0) scale(.985)}
+    .file-rules{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px;color:#9691a2;font-size:10px;letter-spacing:.35px}
+    .file-rules .dot{width:3px;height:3px;background:#bbb6c7;border-radius:50%}
+    .setup-notice{display:flex;align-items:flex-start;gap:11px;border:1px solid #f0ddb3;background:#fffaf0;color:#6c5931;padding:13px 14px;border-radius:12px;margin-top:16px}
+    .setup-notice .icon{color:#b38a34;margin-top:1px}
+    .setup-notice strong{display:block;font-size:12px;margin-bottom:3px}
+    .setup-notice p{font-size:11px;line-height:1.6;color:#8b774f;margin:0}
+    .queue-section{margin-top:23px}
+    .queue-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+    .queue-head h3{font:700 13px "Manrope",sans-serif;margin:0}
+    .queue-count{font-size:11px;color:#928c9f}
+    .queue-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .file-card{display:grid;grid-template-columns:64px minmax(0,1fr);gap:11px;align-items:center;border:1px solid #ece9f2;padding:9px;border-radius:13px;min-width:0;animation:rise-in .28s both}
+    .file-thumb{height:64px;width:64px;border-radius:9px;background:#f0eef7;overflow:hidden;display:grid;place-items:center;color:#a9a2bd}
+    .file-thumb img{height:100%;width:100%;object-fit:cover;animation:fade-in .26s ease both}
+    .file-info{min-width:0}
+    .file-top{display:flex;gap:6px;align-items:flex-start;justify-content:space-between}
+    .file-name{font-size:11px;font-weight:700;line-height:1.45;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .remove-file{border:0;background:transparent;color:#aba5b5;padding:0 0 0 4px;display:grid;place-items:center;flex:none}
+    .remove-file:hover{color:var(--danger)}
+    .file-meta{color:#9993a4;font-size:10px;margin-top:4px}
+    .file-progress{height:4px;border-radius:9px;background:#efedf5;overflow:hidden;margin-top:9px}
+    .file-progress span{height:100%;width:0;display:block;border-radius:9px;background:var(--accent);transition:width .16s ease}
+    .file-status{color:#8c8698;font-size:10px;margin-top:5px;display:flex;align-items:center;gap:5px}
+    .file-status.success{color:var(--good)}.file-status.error{color:var(--danger)}
+    .queue-actions{display:flex;gap:10px;align-items:center;margin-top:17px}
+    .queue-actions .primary-btn{flex:1;padding:14px}
+    .secondary-btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;border:1px solid var(--line);border-radius:11px;padding:12px 14px;background:#fff;color:#656074;font-size:12px;font-weight:700;transition:background .18s,border-color .18s}
+    .secondary-btn:hover{border-color:#c8c0ed;background:#fbfaff;color:var(--accent)}
+    .side-stack{display:flex;flex-direction:column;gap:15px}
+    .side-card{padding:20px}
+    .side-card h3{font:700 14px "Manrope",sans-serif;letter-spacing:-.3px;margin-bottom:13px}
+    .steps{display:flex;flex-direction:column;gap:15px}
+    .step{display:flex;gap:11px;align-items:flex-start}
+    .step-number{height:27px;width:27px;display:grid;place-items:center;border:1px solid #e0dbf0;background:#f6f3ff;color:var(--accent);border-radius:9px;font-size:11px;font-weight:700;flex:none}
+    .step strong{display:block;font-size:12px;margin:2px 0 3px}
+    .step p{font-size:11px;line-height:1.65;color:#898496;margin:0}
+    .privacy-card{background:#27243a;color:#fff;border:1px solid #302c47;border-radius:17px;padding:19px;overflow:hidden;position:relative}
+    .privacy-card:after{content:"";position:absolute;right:-35px;top:-43px;width:130px;height:130px;border:1px solid rgba(194,180,255,.2);border-radius:50%;box-shadow:0 0 0 17px rgba(194,180,255,.035),0 0 0 34px rgba(194,180,255,.025)}
+    .privacy-icon{height:36px;width:36px;border-radius:11px;background:#3b3657;color:#c8baff;display:grid;place-items:center;margin-bottom:13px}
+    .privacy-card h3{font:700 14px "Manrope",sans-serif;margin-bottom:6px;position:relative;z-index:1}
+    .privacy-card p{font-size:11px;line-height:1.75;color:#c1bbd3;margin:0;position:relative;z-index:1}
+    .history-section{padding:36px 0 56px}
+    .section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:15px;margin-bottom:17px}
+    .section-heading .eyebrow{margin-bottom:8px;font-size:10px}
+    .section-heading h2{font:800 25px "Manrope",sans-serif;letter-spacing:-1px;margin:0}
+    .section-heading p{font-size:12px;color:#8a8597;margin:7px 0 0}
+    .history-actions{display:flex;gap:8px;align-items:center}
+    .small-btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 11px;color:#7a7489;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700}
+    .small-btn:hover{color:var(--accent);border-color:#cbc4ec}
+    .history-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .history-card{background:#fff;border:1px solid #e8e5ef;border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(35,29,67,.025);animation:rise-in .32s both;transition:transform .2s,box-shadow .2s}
+    .history-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(35,29,67,.075)}
+    .history-preview{height:152px;background:#eeedf3;position:relative;overflow:hidden;display:grid;place-items:center;color:#aaa4ba}
+    .history-preview img{width:100%;height:100%;object-fit:cover;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+    .history-card:hover .history-preview img{transform:scale(1.035)}
+    .history-preview .format-tag{position:absolute;left:10px;top:10px;padding:5px 7px;background:rgba(255,255,255,.9);border-radius:6px;color:#4d4762;font-size:9px;font-weight:800;letter-spacing:.5px}
+    .history-body{padding:13px}
+    .history-file-name{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px}
+    .history-meta{font-size:10px;color:#9b96a7;display:flex;gap:8px;align-items:center}
+    .history-url{margin-top:12px;border:1px solid #eeebf4;border-radius:8px;padding:8px 9px;display:flex;align-items:center;gap:6px;min-width:0;background:#fbfaff}
+    .history-url .icon{height:14px;width:14px;color:#9188c4}
+    .history-url span{font-size:10px;color:#8e879e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .history-actions-row{display:grid;grid-template-columns:1fr 35px 35px;gap:6px;margin-top:9px}
+    .history-actions-row button{border:1px solid var(--line);background:#fff;border-radius:8px;color:#6d6780;min-height:34px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:10px;font-weight:700;transition:all .17s}
+    .history-actions-row button:first-child{color:var(--accent);background:#f8f6ff;border-color:#e6e0ff}
+    .history-actions-row button:hover{border-color:#c6bdf1;color:var(--accent)}
+    .history-actions-row .icon{width:14px;height:14px}
+    .empty-history{grid-column:1/-1;border:1px dashed #dcd7e9;border-radius:16px;min-height:155px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;color:#9993a6;background:rgba(255,255,255,.5)}
+    .empty-history .icon{width:28px;height:28px;color:#aaa2c7;margin-bottom:10px}
+    .empty-history strong{font-size:12px;color:#6e687c;margin-bottom:4px}
+    .empty-history span{font-size:11px}
+    .footer{border-top:1px solid #e5e1ed;padding:21px 0 26px;display:flex;align-items:center;justify-content:space-between;gap:14px;color:#9a95a6;font-size:11px}
+    .footer strong{color:#6e687c}
+    .footer-right{display:flex;align-items:center;gap:14px}
+    .footer a{color:inherit;text-decoration:none}.footer a:hover{color:var(--accent)}
+    .toast-wrap{position:fixed;right:22px;bottom:22px;z-index:20;display:flex;flex-direction:column;gap:9px;pointer-events:none}
+    .toast{display:flex;align-items:center;gap:10px;background:#252237;color:#fff;border:1px solid #45405d;border-radius:12px;padding:12px 15px;box-shadow:0 12px 35px rgba(25,20,49,.22);font-size:12px;max-width:min(380px,calc(100vw - 32px));animation:toast-in .26s cubic-bezier(.2,.8,.2,1) both}
+    .toast .icon{color:#c3b5ff}.toast.error .icon{color:#ff9b9f}
+    .modal-backdrop{position:fixed;inset:0;z-index:30;background:rgba(24,20,38,.4);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:20px}
+    .modal-backdrop.open{display:flex;animation:fade-in .2s ease both}
+    .modal{width:min(480px,100%);background:#fff;border:1px solid #e7e2f0;border-radius:20px;box-shadow:0 25px 80px rgba(25,20,49,.24);padding:24px;animation:rise-in .25s cubic-bezier(.2,.8,.2,1) both}
+    .modal-top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
+    .modal-top h2{font:800 20px "Manrope",sans-serif;letter-spacing:-.7px;margin:0}
+    .close-modal{border:0;background:#f4f2f8;color:#777186;width:33px;height:33px;border-radius:10px;display:grid;place-items:center}
+    .modal p{font-size:12px;color:#777386;line-height:1.75}
+    .code-line{background:#f6f4fb;border:1px solid #eae6f3;border-radius:9px;padding:11px 12px;font:11px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;color:#6555c5;overflow-wrap:anywhere;margin:10px 0}
+    .modal ol{padding-left:19px;color:#777386;font-size:12px;line-height:1.9}
+    .modal .primary-btn{width:100%;margin-top:8px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @keyframes fade-in{from{opacity:0}to{opacity:1}}
+    @keyframes rise-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes toast-in{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @media(max-width:900px){.hero{grid-template-columns:1fr;gap:23px;padding-top:39px}.hero-aside{border-left:0;border-top:1px solid #ded9ec;padding:18px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.aside-row{align-items:flex-start}.aside-row small{line-height:1.45}.main-grid{grid-template-columns:1fr}.side-stack{display:grid;grid-template-columns:1fr 1fr}.history-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:620px){.shell{padding:0 16px}.topbar{height:68px}.brandmark{height:35px;width:35px;border-radius:11px}.brandname{font-size:16px}.brandtag{font-size:8px;letter-spacing:1px}.top-actions{gap:7px}.guest-pill{font-size:10px;padding:8px 10px}.help-link{padding:7px}.help-link span{display:none}.hero{padding:32px 0 23px;gap:20px}.eyebrow{font-size:9px;letter-spacing:1.4px;margin-bottom:12px}h1{font-size:39px;letter-spacing:-2px;margin-bottom:11px}.hero-copy{font-size:13px;line-height:1.75}.hero-aside{gap:8px;padding-top:15px}.aside-row{gap:7px;flex-direction:column}.aside-icon{width:32px;height:32px;border-radius:10px}.aside-icon .icon{height:17px;width:17px}.aside-row strong{font-size:11px}.aside-row small{font-size:10px}.main-grid{gap:13px}.upload-panel{padding:14px;border-radius:17px}.panel-heading{margin-bottom:13px}.dropzone{min-height:222px;padding:23px 12px}.upload-glyph{height:54px;width:54px;border-radius:17px;margin-bottom:14px}.dropzone h3{font-size:15px}.dropzone p{font-size:12px;line-height:1.65}.file-rules{font-size:9px;gap:6px}.setup-notice{padding:11px;margin-top:12px}.queue-grid{grid-template-columns:1fr}.file-card{grid-template-columns:58px minmax(0,1fr)}.file-thumb{height:58px;width:58px}.queue-actions{gap:7px}.queue-actions .primary-btn{padding:13px 10px;font-size:12px}.queue-actions .secondary-btn{padding:12px 10px}.side-stack{grid-template-columns:1fr}.side-card{padding:17px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.step{flex-direction:column;gap:7px}.step p{font-size:10px}.step strong{font-size:11px}.privacy-card{padding:17px}.history-section{padding:31px 0 37px}.section-heading{align-items:flex-start;flex-direction:column}.section-heading h2{font-size:22px}.history-actions{align-self:stretch}.history-actions .small-btn{flex:1;justify-content:center}.history-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.history-preview{height:115px}.history-body{padding:10px}.history-file-name{font-size:11px}.history-meta{font-size:9px;gap:5px}.history-url{padding:7px;margin-top:9px}.history-actions-row{grid-template-columns:1fr 32px 32px;gap:4px;margin-top:7px}.history-actions-row button{min-height:31px}.history-actions-row button:first-child{font-size:9px}.footer{align-items:flex-start;flex-direction:column;padding:19px 0}.footer-right{gap:12px}.toast-wrap{right:12px;bottom:12px}.toast{padding:11px 13px}.modal{padding:20px}}
+    @media(max-width:370px){h1{font-size:34px}.brandtag{display:none}.hero-aside{grid-template-columns:1fr;gap:11px}.aside-row{flex-direction:row;align-items:center}.steps{display:flex;flex-direction:column}.history-grid{grid-template-columns:1fr}.history-preview{height:155px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <svg aria-hidden="true" class="sr-only" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-images" viewBox="0 0 24 24"><rect x="3" y="3" width="14" height="14" rx="2"/><path d="m3 13 4-4 4 4 2-2 4 4"/><path d="M7 19h12a2 2 0 0 0 2-2V7"/></symbol>
+    <symbol id="i-cloud-upload" viewBox="0 0 24 24"><path d="M20 16.2A4.8 4.8 0 0 0 18 7a6.5 6.5 0 0 0-12.3 1.8A4.7 4.7 0 0 0 6 18h3"/><path d="M12 21V11m-4 4 4-4 4 4"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5m-7 7 7-7 7 7"/></symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 3h7v7m0-7L10 14"/><path d="M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></symbol>
+    <symbol id="i-file-image" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 16l3-3 5 5"/><circle cx="14.5" cy="12.5" r="1.5"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18m-2 0-.9 14H5.9L5 6m4 0V4h6v2m-5 4v6m4-6v6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="m18 6-12 12M6 6l12 12"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7.1-7.1l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7.1 7.1l1.7-1.7"/></symbol>
+    <symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4m0 4h.01"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z"/><path d="m19 14 1.2 2.8L23 18l-2.8 1.2L19 22l-1.2-2.8L15 18l2.8-1.2Z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.6a8 8 0 0 1-1.7 1l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.7-1l-1.7.6-1.4-2.4L7.3 15a8 8 0 0 1 0-2l-1.4-1.1 1.4-2.4 1.7.6a8 8 0 0 1 1.7-1l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.7 1l1.7-.6 1.4 2.4-1.4 1.1a8 8 0 0 1-.1 2Z"/></symbol>
+  </svg>
+  <header class="shell topbar">
+    <a class="brand" href="/" aria-label="ImgUploader beranda">
+      <span class="brandmark"><svg class="icon"><use href="#i-images"/></svg></span>
+      <span><span class="brandname">img<span>uploader</span></span><small class="brandtag">IMAGE HOSTING, SIMPLIFIED</small></span>
+    </a>
+    <div class="top-actions">
+      <span class="guest-pill">Guest mode · no account</span>
+      <a href="#cara-kerja" class="help-link"><svg class="icon sm"><use href="#i-sparkles"/></svg><span>Cara kerja</span></a>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">SIMPLE IMAGE HOSTING</div>
+        <h1>Gambar masuk.<br><span class="highlight">Link beres.</span></h1>
+        <p class="hero-copy">Unggah gambar dan langsung dapatkan link yang siap dibagikan. Tanpa akun, tanpa proses bertele-tele.</p>
+      </div>
+      <div class="hero-aside" aria-label="Keunggulan">
+        <div class="aside-row"><span class="aside-icon"><svg class="icon"><use href="#i-cloud-upload"/></svg></span><span><strong>Upload langsung</strong><small>Drag, drop, selesai.</small></span></div>
+        <div class="aside-row"><span class="aside-icon"><svg class="icon"><use href="#i-link"/></svg></span><span><strong>Link siap pakai</strong><small>Direct link, Markdown, HTML.</small></span></div>
+        <div class="aside-row"><span class="aside-icon"><svg class="icon"><use href="#i-shield-check"/></svg></span><span><strong>Tanpa login</strong><small>Bisa dipakai sebagai guest.</small></span></div>
+      </div>
+    </section>
+
+    <div class="main-grid">
+      <section class="panel upload-panel" aria-labelledby="upload-title">
+        <div class="panel-heading">
+          <div><h2 id="upload-title">Mulai dengan gambarmu</h2><p>Tambah satu atau beberapa file sekaligus.</p></div>
+          <span class="tiny-label">STEP 01</span>
+        </div>
+        <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" multiple hidden>
+        <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-label="Pilih gambar atau tarik gambar ke sini">
+          <span class="upload-glyph"><svg class="icon"><use href="#i-cloud-upload"/></svg></span>
+          <h3>Taruh gambar di sini</h3>
+          <p>Drag & drop file, atau <button class="text-button" type="button" id="chooseFiles">pilih dari perangkat</button></p>
+          <button class="primary-btn" type="button" id="browseButton"><svg class="icon sm"><use href="#i-plus"/></svg>Pilih gambar</button>
+          <div class="file-rules"><span>JPG</span><i class="dot"></i><span>PNG</span><i class="dot"></i><span>WEBP</span><i class="dot"></i><span>GIF</span><i class="dot"></i><span>AVIF</span><i class="dot"></i><span>Maks. 10 MB / gambar</span></div>
+        </div>
+        <div id="setupNotice" class="setup-notice" hidden>
+          <svg class="icon"><use href="#i-alert"/></svg>
+          <div><strong>Storage perlu diaktifkan sekali oleh pemilik website.</strong><p>Isi Cloud name dan unsigned upload preset di <code>config.js</code>. Petunjuk lengkap tersedia di README repo.</p></div>
+        </div>
+        <section class="queue-section" id="queueSection" hidden aria-live="polite">
+          <div class="queue-head"><h3>File yang dipilih</h3><span id="queueCount" class="queue-count">0 file</span></div>
+          <div id="queueGrid" class="queue-grid"></div>
+          <div class="queue-actions">
+            <button class="primary-btn" type="button" id="uploadButton" disabled><svg class="icon sm"><use href="#i-cloud-upload"/></svg><span id="uploadButtonText">Upload gambar</span></button>
+            <button class="secondary-btn" type="button" id="clearQueueButton"><svg class="icon sm"><use href="#i-x"/></svg>Bersihkan</button>
+          </div>
+        </section>
+      </section>
+
+      <aside class="side-stack" id="cara-kerja">
+        <section class="panel side-card">
+          <h3>Sesimpel itu.</h3>
+          <div class="steps">
+            <div class="step"><span class="step-number">01</span><div><strong>Pilih gambar</strong><p>Tarik file ke area upload atau pilih dari galeri perangkat.</p></div></div>
+            <div class="step"><span class="step-number">02</span><div><strong>Unggah</strong><p>Lihat progress sebenarnya sampai gambar berhasil diproses.</p></div></div>
+            <div class="step"><span class="step-number">03</span><div><strong>Salin link</strong><p>Pakai direct URL, Markdown, atau HTML sesuai kebutuhan.</p></div></div>
+          </div>
+        </section>
+        <section class="privacy-card">
+          <span class="privacy-icon"><svg class="icon"><use href="#i-shield-check"/></svg></span>
+          <h3>Ruang gambar, tanpa akun.</h3>
+          <p>Riwayat upload hanya tersimpan di browser ini. Link yang sudah dibuat tetap bisa dibagikan, dan menghapus riwayat tidak menghapus file dari storage.</p>
+        </section>
+      </aside>
+    </div>
+
+    <section class="history-section" aria-labelledby="history-title">
+      <div class="section-heading">
+        <div><div class="eyebrow">YOUR IMAGE SHELF</div><h2 id="history-title">Upload terbaru</h2><p>Riwayat lokal di perangkat ini. Maksimal 12 gambar terakhir.</p></div>
+        <div class="history-actions"><button id="copyAllButton" class="small-btn" type="button" hidden><svg class="icon sm"><use href="#i-copy"/></svg>Salin semua link</button><button id="clearHistoryButton" class="small-btn" type="button" hidden><svg class="icon sm"><use href="#i-trash"/></svg>Bersihkan riwayat</button></div>
+      </div>
+      <div id="historyGrid" class="history-grid"></div>
+    </section>
+  </main>
+
+  <footer class="shell footer">
+    <div><strong>imguploader</strong> · Kecil, cepat, langsung ke inti.</div>
+    <div class="footer-right"><span>Guest-first by design</span><a href="#upload-title">Kembali ke atas ↑</a></div>
+  </footer>
+
+  <div id="toastWrap" class="toast-wrap" aria-live="polite" aria-atomic="true"></div>
+  <div id="setupModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="setupModalTitle">
+    <div class="modal">
+      <div class="modal-top"><h2 id="setupModalTitle">Aktifkan image storage</h2><button class="close-modal" type="button" id="closeModal" aria-label="Tutup"><svg class="icon"><use href="#i-x"/></svg></button></div>
+      <p>UI dan alur upload sudah siap, tetapi storage perlu dihubungkan ke Cloudinary agar gambar punya URL permanen. Ini hanya setup untuk pemilik website, bukan akun untuk pengunjung.</p>
+      <ol><li>Buat cloud di Cloudinary.</li><li>Buat upload preset baru dengan <strong>Signing Mode: Unsigned</strong>.</li><li>Batasi preset ke format gambar yang dibutuhkan dan ukuran maksimum 10 MB.</li><li>Masukkan nilai di <code>config.js</code>, commit ke GitHub, lalu deploy ulang.</li></ol>
+      <div class="code-line">window.UPLOADER_CONFIG = { cloudName: "nama-cloud", uploadPreset: "nama-preset" };</div>
+      <p>Jangan masukkan API Secret ke frontend. Gunakan preset khusus dengan batasan upload.</p>
+      <button class="primary-btn" type="button" id="modalGotIt">Mengerti</button>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    "use strict";
+    var config = window.UPLOADER_CONFIG || {};
+    var cloudName = String(config.cloudName || "").trim();
+    var uploadPreset = String(config.uploadPreset || "").trim();
+    var configured = cloudName.length > 0 && uploadPreset.length > 0 && !/YOUR_|CHANGE_ME|PASTE_/i.test(cloudName + uploadPreset);
+    var MAX_FILE_SIZE = 10 * 1024 * 1024;
+    var MAX_BATCH = 20;
+    var HISTORY_KEY = "mallssz_uploader_history_v1";
+    var ALLOWED = ["image/jpeg","image/png","image/webp","image/gif","image/avif"];
+    var selected = [];
+    var uploading = false;
+    var stopRequested = false;
+    var queueId = 0;
+    var input = document.getElementById("fileInput");
+    var dropzone = document.getElementById("dropzone");
+    var queueSection = document.getElementById("queueSection");
+    var queueGrid = document.getElementById("queueGrid");
+    var uploadButton = document.getElementById("uploadButton");
+    var uploadButtonText = document.getElementById("uploadButtonText");
+    var setupNotice = document.getElementById("setupNotice");
+    var historyGrid = document.getElementById("historyGrid");
+    var setupModal = document.getElementById("setupModal");
+    var history = loadHistory();
+
+    setupNotice.hidden = configured;
+    document.getElementById("browseButton").addEventListener("click", function(e){e.stopPropagation();input.click();});
+    document.getElementById("chooseFiles").addEventListener("click", function(e){e.stopPropagation();input.click();});
+    dropzone.addEventListener("click", function(e){if(e.target.closest("button"))return;input.click();});
+    dropzone.addEventListener("keydown", function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();input.click();}});
+    input.addEventListener("change", function(){addFiles(Array.prototype.slice.call(input.files||[]));input.value="";});
+    ["dragenter","dragover"].forEach(function(name){dropzone.addEventListener(name,function(e){e.preventDefault();e.stopPropagation();dropzone.classList.add("dragover");});});
+    ["dragleave","drop"].forEach(function(name){dropzone.addEventListener(name,function(e){e.preventDefault();e.stopPropagation();dropzone.classList.remove("dragover");});});
+    dropzone.addEventListener("drop",function(e){addFiles(Array.prototype.slice.call((e.dataTransfer&&e.dataTransfer.files)||[]));});
+    document.getElementById("clearQueueButton").addEventListener("click",function(){if(uploading){toast("Upload sedang berjalan. Tunggu sampai selesai.","error");return;}selected.forEach(revokePreview);selected=[];renderQueue();});
+    uploadButton.addEventListener("click",startUpload);
+    document.getElementById("clearHistoryButton").addEventListener("click",function(){if(!history.length)return;if(!window.confirm("Hapus semua riwayat dari browser ini? File yang sudah diunggah tidak akan dihapus dari storage."))return;history=[];saveHistory();renderHistory();toast("Riwayat lokal dibersihkan.");});
+    document.getElementById("copyAllButton").addEventListener("click",function(){copyText(history.map(function(item){return item.url;}).join("\n"),"Semua direct link disalin.");});
+    document.getElementById("closeModal").addEventListener("click",closeSetupModal);
+    document.getElementById("modalGotIt").addEventListener("click",closeSetupModal);
+    setupModal.addEventListener("click",function(e){if(e.target===setupModal)closeSetupModal();});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape")closeSetupModal();});
+    renderQueue();renderHistory();
+
+    function loadHistory(){try{var parsed=JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]");return Array.isArray(parsed)?parsed.filter(function(x){return x&&x.url&&x.name;}):[];}catch(e){return [];}}
+    function saveHistory(){try{localStorage.setItem(HISTORY_KEY,JSON.stringify(history.slice(0,12)));}catch(e){toast("Riwayat tidak bisa disimpan di browser ini.","error");}}
+    function formatBytes(bytes){if(!Number.isFinite(bytes)||bytes<0)return "—";if(bytes<1024)return bytes+" B";var units=["KB","MB","GB"];var size=bytes/1024;var i=0;while(size>=1024&&i<units.length-1){size/=1024;i++;}return size.toFixed(size>=10?0:1)+" "+units[i];}
+    function escapeHtml(value){return String(value).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+    function iconSvg(id,cls){return '<svg class="icon '+(cls||'sm')+'"><use href="#i-'+id+'"></use></svg>';}
+    function toast(message,type){var el=document.createElement("div");el.className="toast"+(type==="error"?" error":"");el.innerHTML=iconSvg(type==="error"?"alert":"check-circle","sm")+'<span>'+escapeHtml(message)+'</span>';document.getElementById("toastWrap").appendChild(el);window.setTimeout(function(){el.style.opacity="0";el.style.transform="translateY(6px)";window.setTimeout(function(){el.remove();},230);},3000);}
+    function openSetupModal(){setupModal.classList.add("open");document.getElementById("modalGotIt").focus();}
+    function closeSetupModal(){setupModal.classList.remove("open");}
+    function isAllowed(file){return ALLOWED.indexOf(file.type)!==-1||/\.(jpe?g|png|webp|gif|avif)$/i.test(file.name);}
+    function addFiles(files){
+      if(!files.length)return;
+      var accepted=[],badType=0,big=0;
+      files.forEach(function(file){
+        if(!isAllowed(file)){badType++;return;}
+        if(file.size>MAX_FILE_SIZE){big++;return;}
+        if(selected.length+accepted.length>=MAX_BATCH){return;}
+        var duplicate=selected.some(function(item){return item.file.name===file.name&&item.file.size===file.size&&item.file.lastModified===file.lastModified;});
+        if(!duplicate)accepted.push({id:"q"+(++queueId)+"_"+Date.now(),file:file,preview:URL.createObjectURL(file),state:"queued",progress:0,error:""});
+      });
+      if(accepted.length){selected=selected.concat(accepted);renderQueue();toast(accepted.length+" gambar ditambahkan.");}
+      if(badType)toast(badType+" file dilewati: format tidak didukung.","error");
+      if(big)toast(big+" file dilewati: ukuran melebihi 10 MB.","error");
+      if(files.length>accepted.length+badType+big)toast("Maksimal "+MAX_BATCH+" file dalam satu antrean.","error");
+    }
+    function revokePreview(item){try{if(item.preview)URL.revokeObjectURL(item.preview);}catch(e){}}
+    function removeQueued(id){if(uploading){toast("Tunggu upload selesai sebelum menghapus antrean.","error");return;}var item=selected.find(function(x){return x.id===id;});if(item)revokePreview(item);selected=selected.filter(function(x){return x.id!==id;});renderQueue();}
+    function renderQueue(){
+      queueSection.hidden=selected.length===0;
+      document.getElementById("queueCount").textContent=selected.length+" file";
+      queueGrid.innerHTML=selected.map(function(item,index){
+        var status=item.state==="done"?'success':item.state==="error"?'error':'';
+        var statusText=item.state==="uploading"?"Mengunggah… "+Math.round(item.progress)+"%":item.state==="error"?item.error:item.state==="done"?"Berhasil diunggah":"Siap diunggah";
+        var thumb=item.preview?'<img src="'+item.preview+'" alt="">':iconSvg("file-image","lg");
+        return '<article class="file-card" data-card-id="'+item.id+'" style="animation-delay:'+(Math.min(index,8)*35)+'ms"><div class="file-thumb">'+thumb+'</div><div class="file-info"><div class="file-top"><div class="file-name" title="'+escapeHtml(item.file.name)+'">'+escapeHtml(item.file.name)+'</div><button class="remove-file" type="button" data-remove="'+item.id+'" aria-label="Hapus '+escapeHtml(item.file.name)+'" '+(uploading?'disabled':'')+'>'+iconSvg("x","sm")+'</button></div><div class="file-meta">'+formatBytes(item.file.size)+'</div><div class="file-progress"><span data-progress-bar style="width:'+item.progress+'%"></span></div><div class="file-status '+status+'" data-progress-label>'+escapeHtml(statusText)+'</div></div></article>';
+      }).join("");
+      queueGrid.querySelectorAll("[data-remove]").forEach(function(btn){btn.addEventListener("click",function(){removeQueued(btn.getAttribute("data-remove"));});});
+      uploadButton.disabled=selected.length===0||uploading;
+      uploadButtonText.textContent=uploading?"Upload sedang berjalan…":"Upload "+selected.length+" gambar";
+    }
+    function updateProgress(item){
+      var card=queueGrid.querySelector('[data-card-id="'+item.id+'"]');
+      if(!card)return;
+      var bar=card.querySelector("[data-progress-bar]");
+      var label=card.querySelector("[data-progress-label]");
+      if(bar)bar.style.width=Math.min(100,item.progress)+"%";
+      if(label){label.textContent=item.state==="uploading"?"Mengunggah… "+Math.round(item.progress)+"%":item.state==="error"?item.error:item.state==="done"?"Berhasil diunggah":"Siap diunggah";label.className="file-status "+(item.state==="error"?"error":item.state==="done"?"success":"");}
+    }
+    function uploadOne(item){
+      return new Promise(function(resolve,reject){
+        item.state="uploading";item.progress=0;updateProgress(item);
+        var xhr=new XMLHttpRequest();
+        xhr.open("POST","https://api.cloudinary.com/v1_1/"+encodeURIComponent(cloudName)+"/image/upload");
+        xhr.responseType="json";
+        xhr.upload.onprogress=function(e){if(e.lengthComputable){item.progress=Math.min(99,(e.loaded/e.total)*100);updateProgress(item);}};
+        xhr.onerror=function(){item.state="error";item.error="Koneksi terputus";updateProgress(item);reject(new Error("Koneksi gagal saat mengunggah "+item.file.name));};
+        xhr.onabort=function(){item.state="error";item.error="Upload dibatalkan";updateProgress(item);reject(new Error("Upload dibatalkan."));};
+        xhr.onload=function(){
+          var data=xhr.response;
+          if(xhr.status>=200&&xhr.status<300&&data&&data.secure_url){
+            item.state="done";item.progress=100;item.error="";updateProgress(item);
+            resolve({url:data.secure_url,publicId:data.public_id||"",name:item.file.name,bytes:data.bytes||item.file.size,format:data.format||extension(item.file.name),width:data.width||null,height:data.height||null,uploadedAt:new Date().toISOString()});
+          }else{
+            item.state="error";item.error=(data&&data.error&&data.error.message)||"Gagal mengunggah";updateProgress(item);
+            reject(new Error(item.error+" ("+item.file.name+")"));
+          }
+        };
+        var form=new FormData();form.append("file",item.file);form.append("upload_preset",uploadPreset);form.append("folder","mallssz-uploader");
+        try{xhr.send(form);}catch(e){item.state="error";item.error="Tidak bisa memulai upload";updateProgress(item);reject(e);}
+      });
+    }
+    async function startUpload(){
+      if(!selected.length||uploading)return;
+      if(!configured){openSetupModal();return;}
+      uploading=true;stopRequested=false;renderQueue();
+      var successes=0,errors=0;
+      for(var i=0;i<selected.length;i++){
+        var item=selected[i];
+        if(item.state==="done")continue;
+        if(stopRequested)break;
+        try{
+          var result=await uploadOne(item);
+          history.unshift(result);history=history.slice(0,12);saveHistory();renderHistory();successes++;
+        }catch(err){errors++;toast(err.message||"Upload gagal.","error");}
+      }
+      uploading=false;
+      var finished=selected.filter(function(item){return item.state==="done";});
+      finished.forEach(revokePreview);
+      selected=selected.filter(function(item){return item.state!=="done";});
+      renderQueue();
+      if(successes)toast(successes+" gambar berhasil diunggah.");
+      if(errors)toast(errors+" gambar gagal. Periksa konfigurasi atau coba lagi.","error");
+    }
+    function extension(name){var match=String(name).toLowerCase().match(/\.([a-z0-9]+)$/);return match?match[1]:"image";}
+    function renderHistory(){
+      document.getElementById("clearHistoryButton").hidden=history.length===0;
+      document.getElementById("copyAllButton").hidden=history.length===0;
+      if(!history.length){
+        historyGrid.innerHTML='<div class="empty-history">'+iconSvg("images","lg")+'<strong>Belum ada gambar di rak ini.</strong><span>Setelah upload berhasil, link gambarmu akan muncul di sini.</span></div>';return;
+      }
+      historyGrid.innerHTML=history.slice(0,12).map(function(item,index){
+        var when=item.uploadedAt?new Date(item.uploadedAt):null;
+        var date=when&&!isNaN(when.getTime())?when.toLocaleDateString("id-ID",{day:"numeric",month:"short"}):"Terbaru";
+        return '<article class="history-card" data-history-id="'+index+'" style="animation-delay:'+(Math.min(index,8)*45)+'ms"><div class="history-preview"><img src="'+escapeHtml(item.url)+'" alt="'+escapeHtml(item.name)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display=\'none\';this.parentNode.insertAdjacentHTML(\'beforeend\',\'<span>Preview tidak tersedia</span>\')"><span class="format-tag">'+escapeHtml(String(item.format||"IMG").toUpperCase())+'</span></div><div class="history-body"><div class="history-file-name" title="'+escapeHtml(item.name)+'">'+escapeHtml(item.name)+'</div><div class="history-meta"><span>'+formatBytes(Number(item.bytes)||0)+'</span><span>·</span><span>'+date+'</span></div><div class="history-url">'+iconSvg("link","sm")+'<span title="'+escapeHtml(item.url)+'">'+escapeHtml(item.url.replace(/^https?:\/\//,""))+'</span></div><div class="history-actions-row"><button type="button" data-copy-url="'+index+'">'+iconSvg("copy","sm")+'Salin link</button><button type="button" data-copy-md="'+index+'" title="Salin Markdown" aria-label="Salin Markdown">MD</button><button type="button" data-remove-history="'+index+'" title="Hapus dari riwayat" aria-label="Hapus dari riwayat">'+iconSvg("trash","sm")+'</button></div></div></article>';
+      }).join("");
+      historyGrid.querySelectorAll("[data-copy-url]").forEach(function(btn){btn.addEventListener("click",function(){var item=history[Number(btn.getAttribute("data-copy-url"))];if(item)copyText(item.url,"Direct link disalin.");});});
+      historyGrid.querySelectorAll("[data-copy-md]").forEach(function(btn){btn.addEventListener("click",function(){var item=history[Number(btn.getAttribute("data-copy-md"))];if(item)copyText("!["+item.name+"]("+item.url+")","Markdown disalin.");});});
+      historyGrid.querySelectorAll("[data-remove-history]").forEach(function(btn){btn.addEventListener("click",function(){var i=Number(btn.getAttribute("data-remove-history"));history.splice(i,1);saveHistory();renderHistory();toast("Dihapus dari riwayat lokal. File tetap tersimpan di storage.");});});
+    }
+    async function copyText(value,message){
+      try{
+        if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(value);}
+        else{var area=document.createElement("textarea");area.value=value;area.style.position="fixed";area.style.opacity="0";document.body.appendChild(area);area.select();var ok=document.execCommand("copy");area.remove();if(!ok)throw new Error("Clipboard gagal");}
+        toast(message||"Disalin.");
+      }catch(e){toast("Gagal menyalin otomatis. Coba lagi dari link gambar.","error");}
+    }
+  })();
+  </script>
+</body>
+</html>
