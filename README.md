@@ -12,7 +12,7 @@ Cloudinary adalah tempat menyimpan file tersebut. Pengaturan dilakukan oleh pemi
 
 1. Buat akun Cloudinary, kemudian salin **Cloud name** dari dashboard.
 2. Buat **Upload preset** baru dan pilih mode **Unsigned**.
-3. Batasi preset ke format gambar yang diperlukan (JPG/JPEG, PNG, WEBP, GIF, AVIF), ukuran maksimum 10 MB, dan nonaktifkan overwrite jika tersedia.
+3. Batasi preset ke format gambar yang diperlukan (JPG/JPEG, PNG, WEBP, GIF, AVIF), gunakan folder khusus, dan nonaktifkan overwrite jika tersedia. Batas 10 MB di UI saat ini divalidasi di browser dan bisa dilewati pengguna yang mengakali request; batas ukuran yang benar-benar ditegakkan perlu ditambahkan di backend.
 4. Buka `config.js`, lalu isi nilainya:
 
    ```js
@@ -24,7 +24,7 @@ Cloudinary adalah tempat menyimpan file tersebut. Pengaturan dilakukan oleh pemi
 
 5. Commit/push ke GitHub. Jika repo sudah terhubung ke Vercel, situs akan deploy ulang otomatis.
 
-**Penting:** unsigned preset memungkinkan upload langsung dari browser sehingga preset bersifat publik. Terapkan batasan upload di Cloudinary dan awasi kuota. Jangan pernah menaruh API Secret Cloudinary di `config.js` atau frontend.
+**Penting:** unsigned preset memungkinkan upload langsung dari browser sehingga preset dan Cloud name terlihat publik. Batasi format, gunakan folder khusus, dan awasi kuota. Batas ukuran 10 MB saat ini hanya validasi frontend, bukan perlindungan server-side. Untuk uploader publik yang lebih aman, tambahkan endpoint backend untuk menandatangani upload dan rate limit. Jangan pernah menaruh API Secret Cloudinary di `config.js` atau frontend.
 
 ## Fitur
 
